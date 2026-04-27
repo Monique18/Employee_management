@@ -1,10 +1,14 @@
 export const createRoleQuery = `
-CREATE TYPE role_type AS ENUM ('Manager', 'Developer', 'HR', 'Sales', 'Intern');
-    
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typename = 'role_type') THEN 
+        CREATE TYPE role_type AS ENUM ('Manager', 'Developer', 'HR', 'Sales', 'Intern');
+    END IF;
+END $$;    
 `;
 
 export const createEmployeeTableQuery = `
-    CREATE TABLE employee_details(
+    CREATE TABLE IF NOT EXISTS employee_details(
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,

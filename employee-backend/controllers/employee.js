@@ -28,7 +28,7 @@ export async function createEmployee(req,res,next){
     try{
       const {name,email,age,role,salary} = req.body; 
      if(!name || !email || !age || !salary) {
-        return res.Status(400).json({error:"Missing fields"});
+        return res.status(400).json({error:"Missing fields"});
      }
      const data = await query(createEmployeeQuery, [name,email,age,role ,salary]);
      res.status(201).json(data.rows[0]);
